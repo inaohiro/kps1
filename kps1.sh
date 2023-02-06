@@ -71,8 +71,14 @@ __kps1_switch_context() {
   fi
 
   # update context
-  (kubectl config view --flatten --merge --output json --kubeconfig ${__KPS1_ORIGINAL_KUBECONFIG} | jq --arg ctx $ctx '(.contexts[] | select(.name == $ctx)) as $c | {apiVersion, kind, preferences, "current-context": $ctx, contexts: [$c], clusters: [.clusters[] | select(.name == $c.context.cluster)], users: [.users[] | select(.name == $c.context.user)]}' > $__KPS1_KUBECONFIG &)
-  __kps1_set_cluster "${ctx}"
+  local kubeconfig=$(kubectl config view --flatten --merge --output json --kubeconfig ${__KPS1_ORIGINAL_KUBECONFIG} | jq -c --arg ctx $ctx '(.contexts[] | select(.name == $ctx)) as $c | {apiVersion, kind, preferences, "current-context": $ctx, contexts: [$c], clusters: [.clusters[] | select(.name == $c.context.cluster)], users: [.users[] | select(.name == $c.context.user)]}')
+
+  (echo $kubeconfig > $__KPS1_KUBECONFIG &)
+  local context=$(echo $kubeconfig | jq -c -r '[.clusters[0].name, .contexts[0].namespace // "default"] | join(" ")')
+  local cluster=$(echo $context | cut -f1 -d' ' -s)
+  local namespace=$(echo $context | cut -f2 -d' ' -s)
+
+  __kps1_set_context $cluster $namespace
 }
 
 __kps1_switch_namespace() {
