@@ -5,6 +5,7 @@ kps1 is Kubernetes prompt for bash, and provides a way to switch contexts and na
 ## Requirements
 
 - fzf
+- jq
 
 ## Installation
 
