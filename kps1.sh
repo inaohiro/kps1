@@ -88,7 +88,7 @@ __kps1_switch_namespace() {
   fi
 
   # update namespace
-  (kubectl config set-context $(kubectl config current-context) --namespace="${ns}" > /dev/null &)
+  (kubectl config set-context --current --namespace="${ns}" > /dev/null &)
   __kps1_set_namespace "${ns}"
 }
 
