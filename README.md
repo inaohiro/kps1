@@ -5,7 +5,7 @@ kps1 is Kubernetes prompt for bash, and provides a way to switch contexts and na
 ## Requirements
 
 - fzf
-- jq
+- yq
 
 ## Installation
 
@@ -22,4 +22,5 @@ kps1 is Kubernetes prompt for bash, and provides a way to switch contexts and na
   export PS1='[\u@\h \W] `__kps1_ps1` \n$ '
   alias kc="__kps1_switch_context"
   alias kn="__kps1_switch_namespace"
+  alias k='__kps1'
   ```
