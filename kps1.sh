@@ -17,8 +17,6 @@ __kps1_init() {
   local context=$(yq '.contexts[0].name' $HOME/.kube/config)
   local namespace=$(yq '.contexts[0].context.namespace // "default"' ${__KPS1_KUBECONFIG})
 
-  # alias __kps1='kubectl'
-
   __kps1_set_all $context $namespace
 }
 
@@ -57,8 +55,6 @@ __kps1_switch_context() {
     return
   fi
   __kps1_set_kubeconfig "$__KPS1_KUBECONFIG_DIR/$kubeconfig"
-  unalias __kps1
-  # alias __kps1="kubectl --kubeconfig=$__KPS1_KUBECONFIG_DIR/$kubeconfig"
 
   local context=$(yq '.contexts[0].name' $__KPS1_KUBECONFIG_DIR/$kubeconfig)
   local namespace=$(yq '.contexts[0].context.namespace // "default"' $HOME/.kube/config.d/$kubeconfig)
