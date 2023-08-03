@@ -63,7 +63,7 @@ __kps1_switch_context() {
 }
 
 __kps1_switch_namespace() {
-  local ns=$(__kps1 get namespace -o name | cut -f2 -d'/' | fzf)
+  local ns=$(kubectl --kubeconfig "${__KPS1_KUBECONFIG}" get namespace -o name | cut -f2 -d'/' | fzf)
   if [[ -z "${ns}" ]]; then
     return
   fi
